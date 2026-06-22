@@ -1,0 +1,9 @@
+site_name: ChatLink 文档
+site_url: https://ChatArch.github.io/ChatLink
+repo_url: https://github.com/ChatArch/ChatLink
+theme:
+  name: material
+  language: zh
+nav:
+  - 首页: index.md
+  - English: index.en.md
