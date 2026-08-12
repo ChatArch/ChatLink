@@ -9,7 +9,7 @@ description = "ChatLink: ChatArch link utilities"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-dependencies = ["click>=8.0", "chatstyle>=0.1.0", "chatenv>=0.1.1"]
+dependencies = ["click>=8.0"]
 authors = [{name = "ChatArch", email = "1073853456@qq.com"}]
 keywords = ["chatlink", "chatarch", "cli"]
 classifiers = [
@@ -20,14 +20,14 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/ChatArch/ChatLink"
 Repository = "https://github.com/ChatArch/ChatLink"
-Documentation = "https://ChatArch.github.io/ChatLink"
+Documentation = "https://arch.gh.wzhecnu.cn/ChatLink/"
 
 [project.scripts]
 chatlink = "chatlink.cli:main"
 
 [project.optional-dependencies]
 dev = ["build", "pytest", "twine"]
-docs = ["mkdocs>=1.4.0", "mkdocs-material>=9.0.0", "mike>=2.0.0"]
+docs = ["mkdocs>=1.6,<2.0", "mkdocs-material>=9.5,<10.0", "mkdocs-static-i18n>=1.2,<2.0", "mike>=2.0,<3.0"]
 
 [tool.setuptools.dynamic]
 version = {attr = "chatlink.__version__"}

@@ -5,7 +5,7 @@
     <a href="https://github.com/ChatArch/ChatLink/actions/workflows/ci.yml">
         <img src="https://github.com/ChatArch/ChatLink/actions/workflows/ci.yml/badge.svg" alt="Tests" />
     </a>
-    <a href="https://ChatArch.github.io/ChatLink">
+    <a href="https://arch.gh.wzhecnu.cn/ChatLink/">
         <img src="https://img.shields.io/badge/docs-mkdocs-blue.svg" alt="Documentation" />
     </a>
 </div>
@@ -17,24 +17,32 @@
 
 # ChatLink
 
-ChatLink: ChatArch link utilities
+ChatLink is the ChatArch link utilities package entrypoint. The package currently keeps a minimal root-only CLI: the public scaffold `hello` command has been removed, and real link subcommands are not exposed yet.
 
 ## Quick Start
 
 ```bash
-pip install -e ".[dev]"
-chatlink hello ChatArch
-python -m pytest -q
-python -m build
+pip install ChatLink
+chatlink --help
+chatlink --version
+chatlink --tree
 ```
 
-## CLI Contract
+## Current CLI Tree
 
-This template depends on `chatstyle>=0.1.0` and `chatenv>=0.1.1`. New commands should prefer:
+```text
+chatlink  # ChatArch link utilities entrypoint
+├── --help  # show command help
+├── --version  # show the installed package version
+└── --tree  # show this CLI tree
+```
 
-- `CommandSchema` / `CommandField` for inputs.
-- `add_interactive_option()` for the shared `-i/-I` switch.
-- `resolve_command_inputs()` for missing args, defaults, TTY behavior, and validation.
+## CLI Boundary
+
+- The current CLI only exposes root options and has no business subcommands.
+- The template leftover `hello` command has been removed; scaffold/demo commands should not be kept as public compatibility surface.
+- `--tree` is generated from the real Click command registration and is used to align README, docs, and tests.
+- When real link utility commands are added later, update the Click registration first and then sync docs from the real `chatlink --tree` output.
 
 ## Layout
 
@@ -42,7 +50,7 @@ This template depends on `chatstyle>=0.1.0` and `chatenv>=0.1.1`. New commands s
 - `tests/code-tests/`: code tests and migrated historical tests
 - `tests/cli-tests/`: real CLI tests, doc-first
 - `tests/mock-cli-tests/`: mock/fake CLI tests, doc-first
-- `docs/`: long-lived project docs built by mkdocs
+- `docs/`: long-lived project docs built by MkDocs
 
 ## Development Notes
 

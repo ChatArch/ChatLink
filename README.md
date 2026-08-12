@@ -5,36 +5,44 @@
     <a href="https://github.com/ChatArch/ChatLink/actions/workflows/ci.yml">
         <img src="https://github.com/ChatArch/ChatLink/actions/workflows/ci.yml/badge.svg" alt="Tests" />
     </a>
-    <a href="https://ChatArch.github.io/ChatLink">
+    <a href="https://arch.gh.wzhecnu.cn/ChatLink/">
         <img src="https://img.shields.io/badge/docs-mkdocs-blue.svg" alt="Documentation" />
     </a>
 </div>
 
 <div align="center">
 
-[English](README.en.md) | [简体中文](README.md)
+[英文版](README.en.md) | [简体中文](README.md)
 </div>
 
 # ChatLink
 
-ChatLink: ChatArch link utilities
+ChatLink 是 ChatArch 的 link utilities 包入口。当前包保持最小 root-only CLI：公开 scaffold `hello` 命令已移除，真实 link 子命令尚未暴露。
 
 ## 快速开始
 
 ```bash
-pip install -e ".[dev]"
-chatlink hello ChatArch
-python -m pytest -q
-python -m build
+pip install ChatLink
+chatlink --help
+chatlink --version
+chatlink --tree
 ```
 
-## CLI 规范
+## 当前 CLI 树
 
-这个模板默认依赖 `chatstyle>=0.1.0` 和 `chatenv>=0.1.1`，新的命令应优先使用：
+```text
+chatlink  # ChatArch link utilities entrypoint
+├── --help  # show command help
+├── --version  # show the installed package version
+└── --tree  # show this CLI tree
+```
 
-- `CommandSchema` / `CommandField` 描述输入。
-- `add_interactive_option()` 提供统一 `-i/-I`。
-- `resolve_command_inputs()` 统一缺参补问、默认值、TTY 与校验。
+## CLI 边界
+
+- 当前 CLI 只有根选项，没有业务子命令。
+- 已删除模板遗留的 `hello` 命令；不要把 scaffold/demo 命令当作公开兼容面保留。
+- `--tree` 从实际 Click 命令注册面生成，用来校对 README、文档和测试。
+- 后续新增真实 link utility 命令时，必须先更新 Click 注册面，再用真实 `chatlink --tree` 同步文档。
 
 ## 目录结构
 
@@ -42,7 +50,7 @@ python -m build
 - `tests/code-tests/`：代码测试和历史测试迁移
 - `tests/cli-tests/`：真实 CLI 测试，doc-first
 - `tests/mock-cli-tests/`：mock/fake CLI 测试，doc-first
-- `docs/`：长期维护文档，由 mkdocs 构建
+- `docs/`：长期维护文档，由 MkDocs 构建
 
 ## 开发说明
 
