@@ -8,7 +8,7 @@ ChatLink is the ChatArch link utilities package entrypoint. These docs record th
 
     ---
 
-    Review the current real command entrypoint, root-only boundary, and update rule.
+    Run `chatlink --tree` for the full registered tree or `chatlink --tree-brief` for the compact view, then review the root-only boundary and update rule.
 
     [View CLI Tree](cli-tree.md)
 

@@ -2,8 +2,11 @@
 
 ## CLI Rules
 
-- Current root-only commands depend only on `click>=8.0`; add bounded `chatstyle` / `chatenv` dependencies only when a real interactive or ChatEnv-backed command needs them.
-- Prefer `CommandSchema`, `CommandField`, `add_interactive_option()`, and `resolve_command_inputs()` for future interactive commands after those dependencies are reintroduced.
+- Use `chatstyle>=0.2.0,<0.3.0` as the canonical CLI interaction and tree runtime.
+- Keep the public root explicitly named `chatlink`; expose `--version`, `--tree`, and `--tree-brief`.
+- Use ChatStyle `add_tree_option()` and the registered Click renderer instead of a package-local tree implementation.
+- ChatLink currently has no env/profile/config behavior. If that changes, register a typed ChatEnv provider and use `chatenv>=0.2.10,<0.3.0` with ChatEnv-managed storage paths.
+- Prefer `CommandSchema`, `CommandField`, `add_interactive_option()`, and `resolve_command_inputs()` for future interactive commands.
 - Missing required args should auto-enter interactive mode when recoverable.
 - `-i` forces interactive mode; `-I` disables prompting and must fail fast.
 - Prompt defaults must match actual execution defaults.

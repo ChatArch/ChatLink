@@ -1,6 +1,24 @@
 from pathlib import Path
 
+from chatstyle import render_click_tree
+
+from chatlink.cli import main
+
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _text_blocks(path: Path) -> list[str]:
+    text = path.read_text(encoding="utf-8")
+    return [chunk.split("```", 1)[0].rstrip() for chunk in text.split("```text\n")[1:]]
+
+
+def test_runtime_and_docs_dependency_contract():
+    pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+
+    assert '"click>=8.0,<9.0"' in pyproject
+    assert '"chatstyle>=0.2.0,<0.3.0"' in pyproject
+    assert '"chatenv' not in pyproject
+    assert '"mkdocs-material>=9.5,<9.7"' in pyproject
 
 
 def test_publish_workflow_is_tag_only_oidc_and_main_guarded():
@@ -29,6 +47,18 @@ def test_docs_workflows_use_chatarch_site_url():
     assert 'mkdocs build --strict' in ci
 
 
+def test_ci_checks_installed_full_and_brief_trees_and_distributions():
+    workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+
+    assert 'python-version: ["3.10", "3.11", "3.12"]' in workflow
+    assert 'chatlink --version' in workflow
+    assert 'chatlink --tree' in workflow
+    assert 'chatlink --tree-brief' in workflow
+    assert 'python -m build' in workflow
+    assert 'python -m twine check dist/*' in workflow
+    assert '"$RUNNER_TEMP/chatlink-wheel/bin/python" -m pip install dist/*.whl' in workflow
+
+
 def test_mkdocs_material_renderer_and_public_domain():
     config = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
 
@@ -37,3 +67,30 @@ def test_mkdocs_material_renderer_and_public_domain():
     assert 'material.extensions.emoji.twemoji' in config
     assert 'material.extensions.emoji.to_svg' in config
     assert 'cli-tree.md' in config
+
+
+def test_public_docs_expose_full_and_brief_tree_commands():
+    checked = [
+        ROOT / "README.md",
+        ROOT / "README.en.md",
+        ROOT / "docs" / "index.md",
+        ROOT / "docs" / "index.en.md",
+        ROOT / "docs" / "cli-tree.md",
+        ROOT / "docs" / "cli-tree.en.md",
+    ]
+    for path in checked:
+        text = path.read_text(encoding="utf-8")
+        assert "chatlink --tree" in text, path
+        assert "chatlink --tree-brief" in text, path
+
+
+def test_bilingual_cli_tree_docs_match_registered_full_and_brief_trees():
+    expected = [
+        render_click_tree(main, root_name="chatlink"),
+        render_click_tree(main, root_name="chatlink", brief=True),
+    ]
+
+    for path in (ROOT / "docs" / "cli-tree.md", ROOT / "docs" / "cli-tree.en.md"):
+        text = path.read_text(encoding="utf-8")
+        assert "chatstyle.add_tree_option()" in text
+        assert _text_blocks(path)[:2] == expected
