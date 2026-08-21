@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-08-21 - 0.1.1
+
+### Added
+
+- Added `chatlink --tree-brief`, which renders the same registered command surface without parameter signatures.
+- Added full/brief tree contract tests and installed console-script CI readbacks.
+
+### Changed
+
+- Replaced the package-local tree renderer with ChatStyle `add_tree_option()` and required `chatstyle>=0.2.0,<0.3.0`.
+- Made the public `chatlink` root name explicit and synchronized bilingual CLI tree documentation with runtime output.
+- Bounded Click and MkDocs Material to the supported compatibility ranges.
+
 ## 2026-08-12 - 0.1.0
 
 ### Added
